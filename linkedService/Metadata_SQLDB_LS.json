@@ -13,6 +13,10 @@
 				"secretName": "kv-sql-db-metadata",
 				"secretVersion": "ce870127f0cc412b827a92da424a4955"
 			}
+		},
+		"connectVia": {
+			"referenceName": "integrationRuntime",
+			"type": "IntegrationRuntimeReference"
 		}
 	},
 	"type": "Microsoft.DataFactory/factories/linkedservices"
