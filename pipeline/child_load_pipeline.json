@@ -22,11 +22,11 @@
 					},
 					"activities": [
 						{
-							"name": "Stored procedure1",
+							"name": "update-log-proc",
 							"type": "SqlServerStoredProcedure",
 							"dependsOn": [
 								{
-									"activity": "Copy data1",
+									"activity": "Copy-Adlsgen1-To-Gen2",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -49,7 +49,7 @@
 									},
 									"activitystatus": {
 										"value": {
-											"value": "@activity('Copy data1').output.executionDetails[0].status",
+											"value": "@activity('Copy-Adlsgen1-To-Gen2').output.executionDetails[0].status",
 											"type": "Expression"
 										},
 										"type": "String"
@@ -77,7 +77,7 @@
 									},
 									"ErrorMessage": {
 										"value": {
-											"value": "@activity('Copy data1').output.errors",
+											"value": "@activity('Copy-Adlsgen1-To-Gen2').output.errors",
 											"type": "Expression"
 										},
 										"type": "String"
@@ -91,7 +91,7 @@
 									},
 									"readrows": {
 										"value": {
-											"value": "@activity('Copy data1').output.dataRead",
+											"value": "@activity('Copy-Adlsgen1-To-Gen2').output.dataRead",
 											"type": "Expression"
 										},
 										"type": "String"
@@ -105,14 +105,14 @@
 									},
 									"starttime": {
 										"value": {
-											"value": "@activity('Copy data1').output.executionDetails[0].start",
+											"value": "@activity('Copy-Adlsgen1-To-Gen2').output.executionDetails[0].start",
 											"type": "Expression"
 										},
 										"type": "DateTime"
 									},
 									"writerows": {
 										"value": {
-											"value": "@activity('Copy data1').output.dataWritten",
+											"value": "@activity('Copy-Adlsgen1-To-Gen2').output.dataWritten",
 											"type": "Expression"
 										},
 										"type": "String"
@@ -125,7 +125,7 @@
 							}
 						},
 						{
-							"name": "Copy data1",
+							"name": "Copy-Adlsgen1-To-Gen2",
 							"type": "Copy",
 							"dependsOn": [
 								{
