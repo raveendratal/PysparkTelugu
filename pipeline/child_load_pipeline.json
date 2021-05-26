@@ -4,11 +4,11 @@
 		"description": "Hello from NDC Sydney!!!",
 		"activities": [
 			{
-				"name": "ForEach1",
+				"name": "ForEach-process1by1",
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "Filter1",
+						"activity": "Filter-files",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -17,7 +17,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('Filter1').output.value",
+						"value": "@activity('Filter-files').output.value",
 						"type": "Expression"
 					},
 					"activities": [
@@ -279,7 +279,7 @@
 				}
 			},
 			{
-				"name": "Get Metadata1",
+				"name": "OnPremfolders",
 				"type": "GetMetadata",
 				"dependsOn": [],
 				"policy": {
@@ -306,6 +306,7 @@
 					],
 					"storeSettings": {
 						"type": "FileServerReadSettings",
+						"recursive": true,
 						"enablePartitionDiscovery": false
 					},
 					"formatSettings": {
@@ -314,11 +315,11 @@
 				}
 			},
 			{
-				"name": "Filter1",
+				"name": "Filter-files",
 				"type": "Filter",
 				"dependsOn": [
 					{
-						"activity": "Get Metadata1",
+						"activity": "OnPremfolders",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -327,7 +328,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('Get Metadata1').output.childitems",
+						"value": "@activity('OnPremfolders').output.childitems",
 						"type": "Expression"
 					},
 					"condition": {

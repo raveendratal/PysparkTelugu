@@ -29,7 +29,7 @@
 				}
 			},
 			{
-				"name": "ForEach1",
+				"name": "Foreach-alljobs",
 				"type": "ForEach",
 				"dependsOn": [
 					{
@@ -42,7 +42,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('Lookup1').output.value",
+						"value": "@activity('lookup_jobdetails').output.value",
 						"type": "Expression"
 					},
 					"isSequential": false,
