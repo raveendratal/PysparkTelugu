@@ -4,7 +4,7 @@
 		"description": "Main ETL Load and its getting metadata\nand calling each pipeline..",
 		"activities": [
 			{
-				"name": "Lookup1",
+				"name": "lookup_jobdetails",
 				"type": "Lookup",
 				"dependsOn": [],
 				"policy": {
@@ -33,7 +33,7 @@
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "Lookup1",
+						"activity": "lookup_jobdetails",
 						"dependencyConditions": [
 							"Succeeded"
 						]
