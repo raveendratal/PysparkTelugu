@@ -1,0 +1,19 @@
+{
+	"name": "ds_adlsgen2_binary_target",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_adlsgen2_target",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "staging",
+				"fileSystem": "sales"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

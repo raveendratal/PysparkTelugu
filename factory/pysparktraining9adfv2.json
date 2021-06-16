@@ -1,0 +1,9 @@
+{
+	"name": "pysparktraining9adfv2",
+	"location": "eastus2",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "c46e80cf-bb71-476b-a01b-c334d3a5b087",
+		"tenantId": "89556edd-0e4a-43c1-bbcb-9139ff026b1f"
+	}
+}

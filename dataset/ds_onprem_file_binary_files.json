@@ -1,0 +1,17 @@
+{
+	"name": "ds_onprem_file_binary_files",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_onprem_files",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "FileServerLocation"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

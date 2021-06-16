@@ -1,0 +1,42 @@
+{
+	"name": "ds_azuresynapse_dw_channel_stg",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_azure_synapsedw",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [
+			{
+				"name": "CHANNEL_ID",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CHANNEL_DESC",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CHANNEL_CLASS",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CHANNEL_CLASS_ID",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CHANNEL_TOTAL",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CHANNEL_TOTAL_ID",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "stg_channels"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,24 @@
+{
+	"name": "ls_onprem_files",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "FileServer",
+		"typeProperties": {
+			"host": "E:\\files\\SH_TAB",
+			"userId": "raveendra",
+			"password": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "ls_azure_keyvault",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "azkvonprempassword"
+			}
+		},
+		"connectVia": {
+			"referenceName": "IR-Selfhosted",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

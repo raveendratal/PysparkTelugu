@@ -3,8 +3,8 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Aggregate",
-				"type": "ExecuteDataFlow",
+				"name": "Lookup1",
+				"type": "Lookup",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "7.00:00:00",
@@ -15,18 +15,129 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"dataflow": {
-						"referenceName": "Aggregate",
-						"type": "DataFlowReference"
+					"source": {
+						"type": "SqlDWSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
 					},
-					"compute": {
-						"coreCount": 8,
-						"computeType": "General"
+					"dataset": {
+						"referenceName": "ds_azuresynapsedw_jobs_table",
+						"type": "DatasetReference"
 					},
-					"traceLevel": "Fine"
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Lookup1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Lookup1').output.value",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "AdlsToStg",
+							"type": "Copy",
+							"dependsOn": [
+								{
+									"activity": "Stg-synapse-dw",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "DelimitedTextSource",
+									"storeSettings": {
+										"type": "AzureBlobFSReadSettings",
+										"recursive": true,
+										"enablePartitionDiscovery": false
+									},
+									"formatSettings": {
+										"type": "DelimitedTextReadSettings"
+									}
+								},
+								"sink": {
+									"type": "SqlDWSink",
+									"preCopyScript": "truncate table dbo.stg_channels",
+									"tableOption": "autoCreate",
+									"disableMetricsCollection": false
+								},
+								"enableStaging": true,
+								"stagingSettings": {
+									"linkedServiceName": {
+										"referenceName": "ls_adlsgen2_target",
+										"type": "LinkedServiceReference"
+									},
+									"path": "sales/staging"
+								},
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "ds_Adlsgen2_channels_csv",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "ds_azuresynapse_dw_channel_stg",
+									"type": "DatasetReference"
+								}
+							]
+						},
+						{
+							"name": "Stg-synapse-dw",
+							"type": "SqlServerStoredProcedure",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"storedProcedureName": "[dbo].[proc_dim_channels_process]"
+							},
+							"linkedServiceName": {
+								"referenceName": "ls_azure_synapsedw",
+								"type": "LinkedServiceReference"
+							}
+						}
+					]
 				}
 			}
 		],
-		"annotations": []
-	}
+		"annotations": [],
+		"lastPublishTime": "2021-06-11T04:58:21Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
 }

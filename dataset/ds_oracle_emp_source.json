@@ -1,0 +1,31 @@
+{
+	"name": "ds_oracle_emp_source",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_oracle_source",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"dbname": {
+				"type": "string"
+			},
+			"tablename": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "OracleTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": {
+				"value": "@dataset().dbname",
+				"type": "Expression"
+			},
+			"table": {
+				"value": "@dataset().tablename",
+				"type": "Expression"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
