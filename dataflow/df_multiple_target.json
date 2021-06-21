@@ -1,0 +1,46 @@
+{
+	"name": "df_multiple_target",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_adlsgen2_emp_csv",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_adlsgen2_target_csv",
+						"type": "DatasetReference"
+					},
+					"name": "Department10"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_adlsgen2_target_csv",
+						"type": "DatasetReference"
+					},
+					"name": "department20"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_adlsgen2_target_csv",
+						"type": "DatasetReference"
+					},
+					"name": "otherdepartmens"
+				}
+			],
+			"transformations": [
+				{
+					"name": "ConditionalSplit1"
+				}
+			],
+			"script": "source(output(\n\t\tEMPNO as string,\n\t\tENAME as string,\n\t\tJOB as string,\n\t\tMGR as string,\n\t\tHIREDATE as string,\n\t\tSAL as string,\n\t\tCOMM as string,\n\t\tDEPTNO as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> source1\nsource1 split(DEPTNO==10,\n\tDEPTNO==20,\n\tdisjoint: false) ~> ConditionalSplit1@(DEPTNO10, DEPTNO20, OTHERDEPARTMENTS)\nConditionalSplit1@DEPTNO10 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['DEPTNO10.csv'],\n\tumask: 0022,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tpartitionBy('hash', 1)) ~> Department10\nConditionalSplit1@DEPTNO20 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['DEPTNO20.csv'],\n\tumask: 0022,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tpartitionBy('hash', 1)) ~> department20\nConditionalSplit1@OTHERDEPARTMENTS sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['OTHERS.csv'],\n\tumask: 0022,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tpartitionBy('hash', 1)) ~> otherdepartmens"
+		}
+	}
+}
